@@ -1,0 +1,17 @@
+cmake_minimum_required(VERSION 2.8.12)
+project(2d-game-engine)
+
+SET(CMAKE_CXX_STANDARD 20)
+SET(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+add_definitions("-std=c++20")
+
+include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
+conan_basic_setup()
+
+file(GLOB SOURCES
+    src/*.cpp)
+
+add_executable(${PROJECT_NAME} ${SOURCES})
+
+target_link_libraries(${PROJECT_NAME} ${CONAN_LIBS})
