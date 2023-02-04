@@ -1,7 +1,10 @@
 #include <iostream>
 
+#include "Game.h"
+
 auto main() -> int {
-    std::cout << "Hello world\n";
+    Game game;
+    game.run();
 
     return 0;
 }
