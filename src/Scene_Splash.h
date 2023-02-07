@@ -13,6 +13,9 @@ private:
     };
 
     std::map<int, Action> actionMap{};
+    sf::Texture texture;
+    sf::Sprite sprite;
+    int duration{180}; // intended duration for splash screen in frames
 public:
     Scene_Splash(GameEngine* gameEngine);
 

@@ -7,6 +7,9 @@
 #include "GameEngine.h"
 
 Scene_Splash::Scene_Splash(GameEngine* gameEngine) : Scene(gameEngine) {
+    texture.loadFromFile("assets/texture-splash-illumination.png");
+    sprite.setTexture(texture);
+
     registerAction(sf::Keyboard::Escape, Action::GO_TO_PLAY);
 }
 
@@ -31,9 +34,15 @@ auto Scene_Splash::doAction(sf::Event event) -> void {
 }
 
 auto Scene_Splash::update() -> void {
+    currentFrame++;
+
+    if (currentFrame > duration) {
+        gameEngine->setCurrentScene(1);
+    }
 }
 
 auto Scene_Splash::render() -> void {
+    gameEngine->window.draw(sprite);
 }
 
 auto Scene_Splash::hasRegisteredAction(sf::Keyboard::Key keycode) -> bool {

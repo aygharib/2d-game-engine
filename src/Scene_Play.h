@@ -15,8 +15,6 @@ private:
         CROUCH,
         RUN_LEFT,
         RUN_RIGHT,
-        GO_TO_SPLASH,
-        GO_TO_PLAY
     };
 
     std::map<int, Action> actionMap{};
