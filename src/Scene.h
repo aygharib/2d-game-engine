@@ -11,7 +11,9 @@ enum class Action {
     JUMP = 33,
     CROUCH = 44,
     RUN_LEFT = 55,
-    RUN_RIGHT = 66
+    RUN_RIGHT = 66,
+    GO_TO_SPLASH = 77,
+    GO_TO_PLAY = 88
 };
 
 class Scene {
@@ -30,4 +32,7 @@ public:
     virtual auto render() -> void = 0;
     virtual auto doAction(Action action, bool isPressed) -> void = 0;
     virtual auto registerAction(sf::Keyboard::Key keycode, Action action)  -> void = 0;
+
+    // auto simulate(int a)                -> void;
+    // auto doAction(const Action& action) -> void;
 };

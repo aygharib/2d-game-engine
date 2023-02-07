@@ -11,7 +11,7 @@
 class GameEngine {
 public:
     bool running;
-    int currentScene = 0;
+    int currentScene{0};
     std::vector<std::shared_ptr<Scene>> scenes{};
     sf::RenderWindow window;
 
@@ -23,6 +23,7 @@ public:
     auto userInput() -> void;
 
     auto getCurrentScene() -> std::shared_ptr<Scene>;
+    auto setCurrentScene(int a) -> void;
 
     GameEngine();
 };

@@ -1,5 +1,6 @@
 #include "GameEngine.h"
 #include "Scene_Play.h"
+#include "Scene_Splash.h"
 
 #include <memory>
 #include <string>
@@ -10,6 +11,7 @@ GameEngine::GameEngine() : running{true} {
     window.create(sf::VideoMode(1280, 720), "2D Game Engine");
     window.setFramerateLimit(60);
 
+    scenes.push_back(std::make_shared<Scene_Splash>(this));
     scenes.push_back(std::make_shared<Scene_Play>(this));
 }
 
@@ -57,4 +59,7 @@ auto GameEngine::userInput() -> void {
 
 auto GameEngine::getCurrentScene() -> std::shared_ptr<Scene> {
     return scenes.at(currentScene);
+}
+auto GameEngine::setCurrentScene(int a) -> void {
+    currentScene = a;
 }

@@ -19,6 +19,7 @@ Scene_Play::Scene_Play(GameEngine* gameEngine) : Scene(gameEngine) {
     registerAction(sf::Keyboard::Down, Action::CROUCH);
     registerAction(sf::Keyboard::Left, Action::RUN_LEFT);
     registerAction(sf::Keyboard::Right, Action::RUN_RIGHT);
+    registerAction(sf::Keyboard::Escape, Action::GO_TO_SPLASH);
 
     spawnPlayer();
     spawnEnemy();
@@ -35,6 +36,7 @@ auto Scene_Play::doAction(Action action, bool isPressed) -> void {
             case Action::CROUCH: player->getCInputComponent().down = true; break;
             case Action::RUN_LEFT: player->getCInputComponent().left = true; break;
             case Action::RUN_RIGHT: player->getCInputComponent().right = true; break;
+            case Action::GO_TO_SPLASH: gameEngine->setCurrentScene(0); break;
         }
     }
     else {
