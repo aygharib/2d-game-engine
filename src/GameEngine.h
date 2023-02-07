@@ -1,12 +1,11 @@
 #pragma once
 
 #include <SFML/Graphics/RenderWindow.hpp>
+#include <SFML/Graphics/View.hpp>
 #include <map>
 #include <memory>
 #include <string>
 #include <vector>
-
-#include "SFML/Graphics/View.hpp"
 #include "Scene.h"
 
 class GameEngine {

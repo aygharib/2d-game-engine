@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Component.h"
-#include "SFML/Graphics/RectangleShape.hpp"
+#include <SFML/Graphics/RectangleShape.hpp>
 #include <SFML/Graphics/CircleShape.hpp>
 #include <SFML/Graphics.hpp>
 

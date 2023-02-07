@@ -1,5 +1,4 @@
 #include "GameEngine.h"
-#include "SFML/Graphics/Rect.hpp"
 #include "Scene_Play.h"
 #include "Scene_Splash.h"
 
@@ -7,6 +6,7 @@
 #include <string>
 #include <iostream>
 #include <SFML/Window/Event.hpp>
+#include <SFML/Graphics/Rect.hpp>
 
 GameEngine::GameEngine() : running{true} {
     window.create(sf::VideoMode{1280, 720}, "2D Game Engine");
