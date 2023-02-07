@@ -2,6 +2,8 @@
 
 Vec2::Vec2(float x, float y) : x{x}, y{y} {}
 
+Vec2::Vec2(const Vec2& copy) : x{copy.x}, y{copy.y} {}
+
 auto Vec2::operator == (const Vec2& rhs) const -> bool {
     return x == rhs.x && y == rhs.y;
 }

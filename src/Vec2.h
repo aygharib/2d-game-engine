@@ -2,11 +2,14 @@
 
 class Vec2 {
 public:
-    float x = 0.F;
-    float y = 0.F;
+    float x{0.F};
+    float y{0.F};
 
     Vec2() = default;
     Vec2(float x, float y);
+
+    // Overload copy assignment constructor
+    Vec2(const Vec2& copy);
 
     auto operator == (const Vec2& rhs) const -> bool;
     auto operator != (const Vec2& rhs) const -> bool;

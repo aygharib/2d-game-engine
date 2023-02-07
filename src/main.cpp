@@ -1,10 +1,8 @@
-#include <iostream>
-
-#include "Game.h"
+#include "GameEngine.h"
 
 auto main() -> int {
-    Game game;
-    game.run();
+    GameEngine gameEngine{};
+    gameEngine.run();
 
     return 0;
 }

@@ -1,13 +1,16 @@
 #pragma once
 
+#include "Component.h"
 #include "Vec2.h"
 
-class CTransform {
+class CTransform : public Component {
 public:
-    Vec2  position;
-    Vec2  velocity;
-    float angle;
+    Vec2  position        {0.F, 0.F};
+    Vec2  previousPosition{0.F, 0.F};
+    Vec2  scale           {0.F, 0.F};
+    Vec2  velocity        {0.F, 0.F};
+    float angle           {0};
 
-    CTransform(Vec2 position, Vec2 velocity, float angle)
-        : position{position}, velocity{velocity}, angle{angle} {}
+    CTransform() = default;
+    CTransform(Vec2 position);
 };

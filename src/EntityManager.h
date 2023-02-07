@@ -1,5 +1,6 @@
 #pragma once
 
+#include <map>
 #include <memory>
 #include <vector>
 
@@ -10,17 +11,17 @@ using EntityMap = std::map<std::string, EntityVec>;
 
 class EntityManager {
 public:
+    size_t    totalEntities{0};
+    size_t    totalDeleted {0};
+    EntityVec entities     {};
+    EntityVec toAddEntities{};
+    EntityMap entityMap    {};
+
     auto update() -> void;
 
-    auto addEntity(const std::string& tag) -> std::shared_ptr<Entity>;
+    auto addEntity(const std::string& tag)    -> std::shared_ptr<Entity>;
     auto removeEntity(const std::string& tag) -> void;
 
     auto getEntities()                       -> EntityVec&;
     auto getEntities(const std::string& tag) -> EntityVec&;
-private:
-    size_t    totalEntities = 0;
-    size_t    totalDeleted  = 0;
-    EntityVec entities;
-    EntityVec toAddEntities;
-    EntityMap entityMap;
 };

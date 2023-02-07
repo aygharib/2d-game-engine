@@ -2,26 +2,41 @@
 
 #include <memory>
 #include <string>
+#include <tuple>
 #include <vector>
 
 #include "CInput.h"
-#include "CCollision.h"
-#include "CShape.h"
 #include "CTransform.h"
+#include "CShape.h"
+#include "CBoundingBox.h"
+
+using ComponentTuple = std::tuple<CTransform, CInput, CShape, CBoundingBox>;
 
 class Entity {
 public:
-    bool alive = true;
+    size_t id                {0};
+    std::string tag          {"default"};
+    bool active              {true};
+    ComponentTuple components{};
 
-    std::shared_ptr<CInput>     cInput;
-    std::shared_ptr<CCollision> cCollision;
-    std::shared_ptr<CShape>     cShape;
-    std::shared_ptr<CTransform> cTransform;
+    Entity() = default;
+    Entity(size_t id, std::string tag);
 
-    Entity(std::string tag, size_t id);
+    auto destroy() -> void;
 
-    auto getTag() -> const std::string&;
-private:
-    const size_t      id    = 0;
-    const std::string tag   = "Default";
+    template<typename T>
+    auto hasComponent() -> bool;
+
+    auto addCInputComponent(CInput cInput) -> CInput&;
+    auto addCShapeComponent(CShape cShape) -> CShape&;
+    auto addCTransformComponent(CTransform cTransform) -> CTransform&;
+    auto addCBoundingBoxComponent(CBoundingBox cBoundingBox) -> CBoundingBox&;
+
+    auto getCInputComponent() -> CInput&;
+    auto getCShapeComponent() -> CShape&;
+    auto getCTransformComponent() -> CTransform&;
+    auto getCBoundingBoxComponent() -> CBoundingBox&;
+
+    template<typename T>
+    auto removeComponent() -> void;
 };
