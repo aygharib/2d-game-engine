@@ -14,7 +14,7 @@
 
 #include "GameEngine.h"
 
-Scene_Play::Scene_Play(GameEngine* gameEngine) : gameEngine(gameEngine) {
+Scene_Play::Scene_Play(GameEngine* gameEngine) : Scene(gameEngine) {
     registerAction(sf::Keyboard::Up, Action::JUMP);
     registerAction(sf::Keyboard::Down, Action::CROUCH);
     registerAction(sf::Keyboard::Left, Action::RUN_LEFT);

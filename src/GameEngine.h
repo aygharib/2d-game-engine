@@ -2,23 +2,27 @@
 
 #include <SFML/Graphics/RenderWindow.hpp>
 #include <map>
+#include <memory>
 #include <string>
+#include <vector>
 
-#include "Scene_Play.h"
+#include "Scene.h"
 
 class GameEngine {
 public:
-    sf::RenderWindow window;
-
-    Scene_Play scene{this};
-
     bool running;
+    int currentScene = 0;
+    std::vector<std::shared_ptr<Scene>> scenes{};
+    sf::RenderWindow window;
 
     auto run()        -> void;
     auto update()     -> void;
+    auto render()     -> void;
     auto quit()       -> void;
 
-    auto sUserInput() -> void;
+    auto userInput() -> void;
+
+    auto getCurrentScene() -> std::shared_ptr<Scene>;
 
     GameEngine();
 };
