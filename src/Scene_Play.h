@@ -9,19 +9,31 @@
 #include "EntityManager.h"
 
 class Scene_Play : public Scene {
-public:
-    std::shared_ptr<Entity> player{};
+private:
+    enum class Action {
+        JUMP,
+        CROUCH,
+        RUN_LEFT,
+        RUN_RIGHT,
+        GO_TO_SPLASH,
+        GO_TO_PLAY
+    };
 
+    std::map<int, Action> actionMap{};
+    std::shared_ptr<Entity> player{};
+public:
     Scene_Play(GameEngine* gameEngine);
 
     auto update() -> void override;
     auto render() -> void override;
-    auto registerAction(Action action, sf::Keyboard::Key keycode) -> void override;
-    auto doAction(sf::Keyboard::Key keycode, bool isPressed) -> void override;
+    auto registerAction(sf::Keyboard::Key keycode, Action action) -> void;
+    auto doAction(sf::Event event) -> void override;
     
     auto spawnPlayer() -> void;
     auto spawnEnemy() -> void;
 
     auto sMovement()  -> void;
     auto sCollision() -> void;
+    
+    auto hasRegisteredAction(sf::Keyboard::Key keycode) -> bool;
 };

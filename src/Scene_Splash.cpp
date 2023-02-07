@@ -7,15 +7,21 @@
 #include "GameEngine.h"
 
 Scene_Splash::Scene_Splash(GameEngine* gameEngine) : Scene(gameEngine) {
-    registerAction(Action::GO_TO_PLAY, sf::Keyboard::Escape);
+    registerAction(sf::Keyboard::Escape, Action::GO_TO_PLAY);
 }
 
-auto Scene_Splash::registerAction(Action action, sf::Keyboard::Key keycode) -> void {
+auto Scene_Splash::registerAction(sf::Keyboard::Key keycode, Action action) -> void {
     actionMap[keycode] = action;
 }
 
-auto Scene_Splash::doAction(sf::Keyboard::Key keycode, bool isPressed) -> void {
-    auto action = actionMap.at(keycode);
+auto Scene_Splash::doAction(sf::Event event) -> void {
+    // Do not invoke action if the action is not registered for the scene
+    if (!hasRegisteredAction(event.key.code)) {
+        return;
+    }
+
+    auto action = actionMap.at(event.key.code);
+    auto isPressed = (event.type == sf::Event::KeyPressed) ? true : false;
 
     if (isPressed) {
         switch (action) {
@@ -28,4 +34,8 @@ auto Scene_Splash::update() -> void {
 }
 
 auto Scene_Splash::render() -> void {
+}
+
+auto Scene_Splash::hasRegisteredAction(sf::Keyboard::Key keycode) -> bool {
+    return actionMap.find(keycode) != actionMap.end();
 }

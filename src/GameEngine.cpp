@@ -50,13 +50,7 @@ auto GameEngine::userInput() -> void {
         }
         
         if (event.type == sf::Event::KeyPressed || event.type == sf::Event::KeyReleased) {
-            // Do not invoke action if the action is not registered for the scene
-            if (!getCurrentScene()->hasRegisteredAction(event.key.code)) {
-                continue;
-            }
-
-            auto isPressed = (event.type == sf::Event::KeyPressed) ? true : false;
-            getCurrentScene()->doAction(event.key.code, isPressed);
+            getCurrentScene()->doAction(event);
         }
     }
 }

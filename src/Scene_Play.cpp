@@ -15,22 +15,28 @@
 #include "GameEngine.h"
 
 Scene_Play::Scene_Play(GameEngine* gameEngine) : Scene(gameEngine) {
-    registerAction(Action::JUMP, sf::Keyboard::Up);
-    registerAction(Action::CROUCH, sf::Keyboard::Down);
-    registerAction(Action::RUN_LEFT, sf::Keyboard::Left);
-    registerAction(Action::RUN_RIGHT, sf::Keyboard::Right);
-    registerAction(Action::GO_TO_SPLASH, sf::Keyboard::Escape);
+    registerAction(sf::Keyboard::Up, Action::JUMP);
+    registerAction(sf::Keyboard::Down, Action::CROUCH);
+    registerAction(sf::Keyboard::Left, Action::RUN_LEFT);
+    registerAction(sf::Keyboard::Right, Action::RUN_RIGHT);
+    registerAction(sf::Keyboard::Escape, Action::GO_TO_SPLASH);
 
     spawnPlayer();
     spawnEnemy();
 }
 
-auto Scene_Play::registerAction(Action action, sf::Keyboard::Key keycode) -> void {
+auto Scene_Play::registerAction(sf::Keyboard::Key keycode, Action action) -> void {
     actionMap[keycode] = action;
 }
 
-auto Scene_Play::doAction(sf::Keyboard::Key keycode, bool isPressed) -> void {
-    auto action = actionMap.at(keycode);
+auto Scene_Play::doAction(sf::Event event) -> void {
+    // Do not invoke action if the action is not registered for the scene
+    if (!hasRegisteredAction(event.key.code)) {
+        return;
+    }
+
+    auto action = actionMap.at(event.key.code);
+    auto isPressed = (event.type == sf::Event::KeyPressed) ? true : false;
 
     if (isPressed) {
         switch (action) {
@@ -140,4 +146,8 @@ auto Scene_Play::sCollision() -> void {
             }
         }
     }
+}
+
+auto Scene_Play::hasRegisteredAction(sf::Keyboard::Key keycode) -> bool {
+    return actionMap.find(keycode) != actionMap.end();
 }
