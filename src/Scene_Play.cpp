@@ -78,6 +78,9 @@ auto Scene_Play::update() -> void {
 }
 
 auto Scene_Play::render() -> void {
+    view.setCenter(player->getCTransformComponent().position.x, player->getCTransformComponent().position.y);
+    gameEngine->window.setView(view);
+
     auto a = entityManager.entities;
     for (auto e : entityManager.entities) {
         // Update position
@@ -117,10 +120,7 @@ auto Scene_Play::sCollision() -> void {
 
         // If there's a collision, we want to push the player out of the enemy
         if (overlap.x > 0 && overlap.y > 0) {
-            std::cout << "COLLISION\n";
             auto previousOverlap = Physics::getPreviousOverlap(player, e);
-            std::cout << "CURRENT  OVERLAP: " << overlap.x << ", " << overlap.y << "\n";
-            std::cout << "PREVIOUS OVERLAP: " << previousOverlap.x << ", " << previousOverlap.y << "\n";
 
             if (previousOverlap.x > 0) {
                 // Player coming from top or bottom of enemy

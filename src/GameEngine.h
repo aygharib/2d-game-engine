@@ -6,6 +6,7 @@
 #include <string>
 #include <vector>
 
+#include "SFML/Graphics/View.hpp"
 #include "Scene.h"
 
 class GameEngine {

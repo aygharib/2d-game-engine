@@ -1,4 +1,5 @@
 #include "GameEngine.h"
+#include "SFML/Graphics/Rect.hpp"
 #include "Scene_Play.h"
 #include "Scene_Splash.h"
 
@@ -8,7 +9,7 @@
 #include <SFML/Window/Event.hpp>
 
 GameEngine::GameEngine() : running{true} {
-    window.create(sf::VideoMode(1280, 720), "2D Game Engine");
+    window.create(sf::VideoMode{1280, 720}, "2D Game Engine");
     window.setFramerateLimit(60);
 
     scenes.push_back(std::make_shared<Scene_Splash>(this));

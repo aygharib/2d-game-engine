@@ -14,11 +14,12 @@ private:
         JUMP,
         CROUCH,
         RUN_LEFT,
-        RUN_RIGHT,
+        RUN_RIGHT
     };
 
     std::map<int, Action> actionMap{};
     std::shared_ptr<Entity> player{};
+    sf::View view{sf::Vector2f{}, sf::Vector2f(1280.F, 720.F)};
 public:
     Scene_Play(GameEngine* gameEngine);
 
