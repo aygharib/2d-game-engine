@@ -4,7 +4,6 @@
 
 class CInput : public Component {
 public:
-    int x;
     bool up   {false};
     bool down {false};
     bool left {false};

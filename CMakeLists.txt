@@ -9,7 +9,8 @@ add_definitions("-std=c++20")
 include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
 conan_basic_setup()
 
-SET(SOURCES src/main.cpp src/Vec2.cpp src/CTransform.cpp src/CShape.cpp src/CBoundingBox.cpp src/Entity.cpp src/EntityManager.cpp src/Scene_Play.cpp src/GameEngine.cpp src/Physics.cpp)
+file(GLOB SOURCES
+    src/*.cpp)
 
 add_executable(${PROJECT_NAME} ${SOURCES})
 

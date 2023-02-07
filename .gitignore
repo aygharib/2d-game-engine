@@ -2,6 +2,9 @@
 build
 compile_commands.json
 
+reference
+changes
+
 # Prerequisites
 *.d
 
