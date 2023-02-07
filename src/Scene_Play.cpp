@@ -15,21 +15,23 @@
 #include "GameEngine.h"
 
 Scene_Play::Scene_Play(GameEngine* gameEngine) : Scene(gameEngine) {
-    registerAction(sf::Keyboard::Up, Action::JUMP);
-    registerAction(sf::Keyboard::Down, Action::CROUCH);
-    registerAction(sf::Keyboard::Left, Action::RUN_LEFT);
-    registerAction(sf::Keyboard::Right, Action::RUN_RIGHT);
-    registerAction(sf::Keyboard::Escape, Action::GO_TO_SPLASH);
+    registerAction(Action::JUMP, sf::Keyboard::Up);
+    registerAction(Action::CROUCH, sf::Keyboard::Down);
+    registerAction(Action::RUN_LEFT, sf::Keyboard::Left);
+    registerAction(Action::RUN_RIGHT, sf::Keyboard::Right);
+    registerAction(Action::GO_TO_SPLASH, sf::Keyboard::Escape);
 
     spawnPlayer();
     spawnEnemy();
 }
 
-auto Scene_Play::registerAction(sf::Keyboard::Key keycode, Action action) -> void {
+auto Scene_Play::registerAction(Action action, sf::Keyboard::Key keycode) -> void {
     actionMap[keycode] = action;
 }
 
-auto Scene_Play::doAction(Action action, bool isPressed) -> void {
+auto Scene_Play::doAction(sf::Keyboard::Key keycode, bool isPressed) -> void {
+    auto action = actionMap.at(keycode);
+
     if (isPressed) {
         switch (action) {
             case Action::JUMP: player->getCInputComponent().up = true; break;
@@ -72,9 +74,6 @@ auto Scene_Play::update() -> void {
 }
 
 auto Scene_Play::render() -> void {
-    // Clear Screen
-    gameEngine->window.clear(sf::Color::Black);
-    
     auto a = entityManager.entities;
     for (auto e : entityManager.entities) {
         // Update position

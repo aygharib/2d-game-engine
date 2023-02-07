@@ -19,8 +19,6 @@ auto GameEngine::run() -> void {
     while (window.isOpen()) {
         update();
         render();
-
-        window.display();
     }
 }
 
@@ -31,7 +29,12 @@ auto GameEngine::update() -> void {
 }
 
 auto GameEngine::render() -> void {
+    // Clear Screen
+    window.clear(sf::Color::Black);
+
     getCurrentScene()->render();
+ 
+    window.display();
 }
 
 auto GameEngine::quit() -> void {
@@ -47,12 +50,13 @@ auto GameEngine::userInput() -> void {
         }
         
         if (event.type == sf::Event::KeyPressed || event.type == sf::Event::KeyReleased) {
-            if (getCurrentScene()->actionMap.find(event.key.code) == getCurrentScene()->actionMap.end()) {
+            // Do not invoke action if the action is not registered for the scene
+            if (!getCurrentScene()->hasRegisteredAction(event.key.code)) {
                 continue;
             }
 
             auto isPressed = (event.type == sf::Event::KeyPressed) ? true : false;
-            getCurrentScene()->doAction(getCurrentScene()->actionMap.at(event.key.code), isPressed);
+            getCurrentScene()->doAction(event.key.code, isPressed);
         }
     }
 }
@@ -60,6 +64,6 @@ auto GameEngine::userInput() -> void {
 auto GameEngine::getCurrentScene() -> std::shared_ptr<Scene> {
     return scenes.at(currentScene);
 }
-auto GameEngine::setCurrentScene(int a) -> void {
-    currentScene = a;
+auto GameEngine::setCurrentScene(int currentScene) -> void {
+    this->currentScene = currentScene;
 }

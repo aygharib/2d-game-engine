@@ -30,9 +30,8 @@ public:
     
     virtual auto update() -> void = 0;
     virtual auto render() -> void = 0;
-    virtual auto doAction(Action action, bool isPressed) -> void = 0;
-    virtual auto registerAction(sf::Keyboard::Key keycode, Action action)  -> void = 0;
+    virtual auto registerAction(Action action, sf::Keyboard::Key keycode) -> void = 0;
+    virtual auto doAction(sf::Keyboard::Key keycode, bool isPressed) -> void = 0;
 
-    // auto simulate(int a)                -> void;
-    // auto doAction(const Action& action) -> void;
+    auto hasRegisteredAction(sf::Keyboard::Key keycode) -> bool;
 };

@@ -7,20 +7,19 @@
 #include "GameEngine.h"
 
 Scene_Splash::Scene_Splash(GameEngine* gameEngine) : Scene(gameEngine) {
-    registerAction(sf::Keyboard::Escape, Action::GO_TO_PLAY);
+    registerAction(Action::GO_TO_PLAY, sf::Keyboard::Escape);
 }
 
-auto Scene_Splash::registerAction(sf::Keyboard::Key keycode, Action action) -> void {
+auto Scene_Splash::registerAction(Action action, sf::Keyboard::Key keycode) -> void {
     actionMap[keycode] = action;
 }
 
-auto Scene_Splash::doAction(Action action, bool isPressed) -> void {
+auto Scene_Splash::doAction(sf::Keyboard::Key keycode, bool isPressed) -> void {
+    auto action = actionMap.at(keycode);
+
     if (isPressed) {
         switch (action) {
-            case Action::GO_TO_PLAY:
-                gameEngine->setCurrentScene(1);
-                std::cout << "escape clicked!\n";
-                break;
+            case Action::GO_TO_PLAY: gameEngine->setCurrentScene(1); break;
         }
     }
 }
@@ -29,20 +28,4 @@ auto Scene_Splash::update() -> void {
 }
 
 auto Scene_Splash::render() -> void {
-    // Clear Screen
-    gameEngine->window.clear(sf::Color::Black);
-
-    // std::cout << "rendering splash\n";
-    // std::cout << "...\n";
-    
-    // auto a = entityManager.entities;
-    // for (auto e : entityManager.entities) {
-    //     // Update position
-    //     auto transformComponent = e->getCTransformComponent();
-    //     auto shapeComponent = e->getCShapeComponent();
-    //     shapeComponent.shape.setPosition({transformComponent.position.x, transformComponent.position.y});
-
-    //     // Draw
-    //     gameEngine->window.draw(shapeComponent.shape);
-    // }
 }

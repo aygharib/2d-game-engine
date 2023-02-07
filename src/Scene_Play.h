@@ -16,8 +16,8 @@ public:
 
     auto update() -> void override;
     auto render() -> void override;
-    auto registerAction(sf::Keyboard::Key keycode, Action action) -> void override;
-    auto doAction(Action action, bool isPressed) -> void override;
+    auto registerAction(Action action, sf::Keyboard::Key keycode) -> void override;
+    auto doAction(sf::Keyboard::Key keycode, bool isPressed) -> void override;
     
     auto spawnPlayer() -> void;
     auto spawnEnemy() -> void;

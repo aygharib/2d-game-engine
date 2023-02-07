@@ -15,15 +15,15 @@ public:
     std::vector<std::shared_ptr<Scene>> scenes{};
     sf::RenderWindow window;
 
-    auto run()        -> void;
-    auto update()     -> void;
-    auto render()     -> void;
-    auto quit()       -> void;
+    auto run()    -> void;
+    auto update() -> void;
+    auto render() -> void;
+    auto quit()   -> void;
 
     auto userInput() -> void;
 
     auto getCurrentScene() -> std::shared_ptr<Scene>;
-    auto setCurrentScene(int a) -> void;
+    auto setCurrentScene(int currentScene) -> void;
 
     GameEngine();
 };
