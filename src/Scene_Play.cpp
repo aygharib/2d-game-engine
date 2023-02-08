@@ -37,37 +37,40 @@ auto Scene_Play::doAction(sf::Event event) -> void {
     auto action = actionMap.at(event.key.code);
     auto isPressed = (event.type == sf::Event::KeyPressed) ? true : false;
 
+    auto a = player->hasComponent<CInput>();
+    auto& inputComponent = player->getComponent<CInput>();
+
     if (isPressed) {
         switch (action) {
-            case Action::JUMP: player->getCInputComponent().up = true; break;
-            case Action::CROUCH: player->getCInputComponent().down = true; break;
-            case Action::RUN_LEFT: player->getCInputComponent().left = true; break;
-            case Action::RUN_RIGHT: player->getCInputComponent().right = true; break;
+            case Action::JUMP: inputComponent.up = true; break;
+            case Action::CROUCH: inputComponent.down = true; break;
+            case Action::RUN_LEFT: inputComponent.left = true; break;
+            case Action::RUN_RIGHT: inputComponent.right = true; break;
         }
     }
     else {
         switch (action) {
-            case Action::JUMP: player->getCInputComponent().up = false; break;
-            case Action::CROUCH: player->getCInputComponent().down = false; break;
-            case Action::RUN_LEFT: player->getCInputComponent().left = false; break;
-            case Action::RUN_RIGHT: player->getCInputComponent().right = false; break;
+            case Action::JUMP: inputComponent.up = false; break;
+            case Action::CROUCH: inputComponent.down = false; break;
+            case Action::RUN_LEFT: inputComponent.left = false; break;
+            case Action::RUN_RIGHT: inputComponent.right = false; break;
         }
     }
 }
 
 auto Scene_Play::spawnPlayer() -> void {
     player = entityManager.addEntity("player");
-    player->addCInputComponent(CInput{});
-    player->addCTransformComponent(CTransform{Vec2{100.F, 100.F}});
-    player->addCShapeComponent(CShape{30.F, 30.F});
-    player->addCBoundingBoxComponent(CBoundingBox{Vec2{30.F, 30.F}});
+    player->addComponent<CInput>();
+    player->addComponent<CTransform>(Vec2{100.F, 100.F});
+    player->addComponent<CShape>(30.F, 30.F);
+    player->addComponent<CBoundingBox>(Vec2{30.F, 30.F});
 }
 
 auto Scene_Play::spawnEnemy() -> void {
     auto enemy = entityManager.addEntity("enemy");
-    enemy->addCTransformComponent(CTransform{Vec2{300.F, 300.F}});
-    enemy->addCShapeComponent(CShape{30.F, 30.F});
-    enemy->addCBoundingBoxComponent(CBoundingBox{Vec2{30.F, 30.F}});
+    enemy->addComponent<CTransform>(Vec2{300.F, 300.F});
+    enemy->addComponent<CShape>(30.F, 30.F);
+    enemy->addComponent<CBoundingBox>(Vec2{30.F, 30.F});
 }
 
 auto Scene_Play::update() -> void {
@@ -78,14 +81,15 @@ auto Scene_Play::update() -> void {
 }
 
 auto Scene_Play::render() -> void {
-    view.setCenter(player->getCTransformComponent().position.x, player->getCTransformComponent().position.y);
+    auto& playerTransformComponent = player->getComponent<CTransform>();
+    view.setCenter(playerTransformComponent.position.x, playerTransformComponent.position.y);
     gameEngine->window.setView(view);
 
     auto a = entityManager.entities;
     for (auto e : entityManager.entities) {
         // Update position
-        auto transformComponent = e->getCTransformComponent();
-        auto shapeComponent = e->getCShapeComponent();
+        auto& transformComponent = e->getComponent<CTransform>();
+        auto& shapeComponent = e->getComponent<CShape>();
         shapeComponent.shape.setPosition({transformComponent.position.x, transformComponent.position.y});
 
         // Draw
@@ -96,7 +100,7 @@ auto Scene_Play::render() -> void {
 auto Scene_Play::sMovement() -> void {
     Vec2 playerVelocity{0.F, 0.F};
 
-    auto inputComponent = player->getCInputComponent();
+    auto& inputComponent = player->getComponent<CInput>();
 
     if (inputComponent.up) {
         playerVelocity.y = -3;
@@ -110,11 +114,17 @@ auto Scene_Play::sMovement() -> void {
     if (inputComponent.right) {
         playerVelocity.x = 3;
     }
-    player->getCTransformComponent().previousPosition = player->getCTransformComponent().position;
-    player->getCTransformComponent().position += playerVelocity;
+
+    auto& transformComponent = player->getComponent<CTransform>();
+
+    transformComponent.previousPosition = transformComponent.position;
+    transformComponent.position += playerVelocity;
 }
 
 auto Scene_Play::sCollision() -> void {
+    auto& inputComponent = player->getComponent<CInput>();
+    auto& transformComponent = player->getComponent<CTransform>();
+
     for (auto& e : entityManager.getEntities("enemy")) {
         auto overlap = Physics::getOverlap(player, e);
 
@@ -125,21 +135,21 @@ auto Scene_Play::sCollision() -> void {
             if (previousOverlap.x > 0) {
                 // Player coming from top or bottom of enemy
 
-                if (player->getCInputComponent().down) { // player coming from top
-                    player->getCTransformComponent().position += Vec2{0.F, -overlap.y};
+                if (inputComponent.down) { // player coming from top
+                    transformComponent.position += Vec2{0.F, -overlap.y};
                 }
-                else if  (player->getCInputComponent().up) { // player coming from bottom
-                    player->getCTransformComponent().position += Vec2{0.F, overlap.y};
+                else if (inputComponent.up) { // player coming from bottom
+                    transformComponent.position += Vec2{0.F, overlap.y};
                 }
             }
             else if (previousOverlap.y > 0) {
                 // Player coming from left or right of enemy
 
-                if (player->getCInputComponent().right) { // player coming from left
-                    player->getCTransformComponent().position += Vec2{-overlap.x, 0.F};
+                if (inputComponent.right) { // player coming from left
+                    transformComponent.position += Vec2{-overlap.x, 0.F};
                 }
-                else if  (player->getCInputComponent().left) { // player coming from right
-                    player->getCTransformComponent().position += Vec2{overlap.x, 0.F};
+                else if (inputComponent.left) { // player coming from right
+                    transformComponent.position += Vec2{overlap.x, 0.F};
                 }
             }
         }

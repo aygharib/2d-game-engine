@@ -24,19 +24,26 @@ public:
 
     auto destroy() -> void;
 
-    template<typename T>
-    auto hasComponent() -> bool;
-
-    auto addCInputComponent(CInput cInput) -> CInput&;
-    auto addCShapeComponent(CShape cShape) -> CShape&;
-    auto addCTransformComponent(CTransform cTransform) -> CTransform&;
-    auto addCBoundingBoxComponent(CBoundingBox cBoundingBox) -> CBoundingBox&;
-
-    auto getCInputComponent() -> CInput&;
-    auto getCShapeComponent() -> CShape&;
-    auto getCTransformComponent() -> CTransform&;
-    auto getCBoundingBoxComponent() -> CBoundingBox&;
+    template<typename T, typename... TArgs>
+    auto addComponent(TArgs&&... args) -> T& {
+        auto& component = getComponent<T>();
+        component = T(std::forward<TArgs>(args)...);
+        component.has = true;
+        return component;
+    }
 
     template<typename T>
-    auto removeComponent() -> void;
+    auto removeComponent() -> void {
+        getComponent<T>() = T();
+    }
+
+    template<typename T>
+    auto getComponent() -> T& {
+        return std::get<T>(components);
+    }
+
+    template<typename T>
+    auto hasComponent() -> bool {
+        return getComponent<T>().has;
+    }
 };
