@@ -7,7 +7,7 @@
 #include "Entity.h"
 
 using EntityVec = std::vector<std::shared_ptr<Entity>>;
-using EntityMap = std::map<std::string, EntityVec>;
+using EntityMap = std::map<EntityTag, EntityVec>;
 
 class EntityManager {
 public:
@@ -19,9 +19,9 @@ public:
 
     auto update() -> void;
 
-    auto addEntity(const std::string& tag)    -> std::shared_ptr<Entity>;
-    auto removeEntity(const std::string& tag) -> void;
+    auto addEntity(EntityTag tag) -> std::shared_ptr<Entity>;
+    auto removeEntity(EntityTag tag) -> void;
 
-    auto getEntities()                       -> EntityVec&;
-    auto getEntities(const std::string& tag) -> EntityVec&;
+    auto getEntities() -> EntityVec&;
+    auto getEntities(EntityTag tag) -> EntityVec&;
 };

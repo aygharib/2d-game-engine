@@ -57,7 +57,7 @@ auto Scene_Play::doAction(sf::Event event) -> void {
 }
 
 auto Scene_Play::spawnPlayer() -> void {
-    player = entityManager.addEntity("player");
+    player = entityManager.addEntity(EntityTag::PLAYER);
     player->addComponent<CInput>();
     player->addComponent<CTransform>(Vec2{100.F, 100.F}, 5.F);
     player->addComponent<CShape>(30.F, 30.F);
@@ -65,7 +65,7 @@ auto Scene_Play::spawnPlayer() -> void {
 }
 
 auto Scene_Play::spawnEnemy() -> void {
-    auto enemy = entityManager.addEntity("enemy");
+    auto enemy = entityManager.addEntity(EntityTag::ENEMY);
     enemy->addComponent<CTransform>(Vec2{300.F, 300.F}, 0.F);
     enemy->addComponent<CShape>(30.F, 30.F);
     enemy->addComponent<CBoundingBox>(Vec2{30.F, 30.F});
@@ -122,7 +122,7 @@ auto Scene_Play::collisionSystem() -> void {
     auto& inputComponent = player->getComponent<CInput>();
     auto& transformComponent = player->getComponent<CTransform>();
 
-    for (auto& e : entityManager.getEntities("enemy")) {
+    for (auto& e : entityManager.getEntities(EntityTag::ENEMY)) {
         auto overlap = Physics::getOverlap(player, e);
 
         // If there's a collision, we want to push the player out of the enemy

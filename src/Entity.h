@@ -12,15 +12,20 @@
 
 using ComponentTuple = std::tuple<CTransform, CInput, CShape, CBoundingBox>;
 
+enum class EntityTag {
+    PLAYER,
+    ENEMY
+};
+
 class Entity {
 public:
-    size_t id                {0};
-    std::string tag          {"default"};
-    bool active              {true};
+    size_t id{0};
+    EntityTag tag;
+    bool active{true};
     ComponentTuple components{};
 
     Entity() = default;
-    Entity(size_t id, std::string tag);
+    Entity(size_t id, EntityTag tag);
 
     auto destroy() -> void;
 

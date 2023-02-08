@@ -18,14 +18,14 @@ auto EntityManager::update() -> void {
     entities.erase(pend, entities.end());
 }
 
-auto EntityManager::addEntity(const std::string& tag) -> std::shared_ptr<Entity> {
+auto EntityManager::addEntity(EntityTag tag) -> std::shared_ptr<Entity> {
     auto entity = std::make_shared<Entity>(totalEntities++, tag);
     toAddEntities.push_back(entity);
 
     return entity;
 }
 
-auto EntityManager::removeEntity(const std::string& tag) -> void {
+auto EntityManager::removeEntity(EntityTag tag) -> void {
     if (totalDeleted < totalEntities - 1)
         entityMap.at(tag).at(totalDeleted++)->active = false;
 }
@@ -34,6 +34,6 @@ auto EntityManager::getEntities() -> EntityVec& {
     return entities;
 }
 
-auto EntityManager::getEntities(const std::string& tag) -> EntityVec& {
+auto EntityManager::getEntities(EntityTag tag) -> EntityVec& {
     return entityMap.at(tag);
 }
