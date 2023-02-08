@@ -36,8 +36,6 @@ auto Scene_Play::doAction(sf::Event event) -> void {
 
     auto action = actionMap.at(event.key.code);
     auto isPressed = (event.type == sf::Event::KeyPressed) ? true : false;
-
-    auto a = player->hasComponent<CInput>();
     auto& inputComponent = player->getComponent<CInput>();
 
     if (isPressed) {
@@ -61,14 +59,14 @@ auto Scene_Play::doAction(sf::Event event) -> void {
 auto Scene_Play::spawnPlayer() -> void {
     player = entityManager.addEntity("player");
     player->addComponent<CInput>();
-    player->addComponent<CTransform>(Vec2{100.F, 100.F});
+    player->addComponent<CTransform>(Vec2{100.F, 100.F}, 5.F);
     player->addComponent<CShape>(30.F, 30.F);
     player->addComponent<CBoundingBox>(Vec2{30.F, 30.F});
 }
 
 auto Scene_Play::spawnEnemy() -> void {
     auto enemy = entityManager.addEntity("enemy");
-    enemy->addComponent<CTransform>(Vec2{300.F, 300.F});
+    enemy->addComponent<CTransform>(Vec2{300.F, 300.F}, 0.F);
     enemy->addComponent<CShape>(30.F, 30.F);
     enemy->addComponent<CBoundingBox>(Vec2{30.F, 30.F});
 }
@@ -76,8 +74,8 @@ auto Scene_Play::spawnEnemy() -> void {
 auto Scene_Play::update() -> void {
     entityManager.update();
 
-    sMovement();
-    sCollision();
+    movementSystem();
+    collisionSystem();
 }
 
 auto Scene_Play::render() -> void {
@@ -97,31 +95,30 @@ auto Scene_Play::render() -> void {
     }
 }
 
-auto Scene_Play::sMovement() -> void {
-    Vec2 playerVelocity{0.F, 0.F};
-
+auto Scene_Play::movementSystem() -> void {
     auto& inputComponent = player->getComponent<CInput>();
-
-    if (inputComponent.up) {
-        playerVelocity.y = -3;
-    }
-    if (inputComponent.down) {
-        playerVelocity.y = 3;
-    }
-    if (inputComponent.left) {
-        playerVelocity.x = -3;
-    }
-    if (inputComponent.right) {
-        playerVelocity.x = 3;
-    }
-
     auto& transformComponent = player->getComponent<CTransform>();
 
+    transformComponent.velocity = Vec2{0.F, 0.F};
+
+    if (inputComponent.up) {
+        transformComponent.velocity.y -= transformComponent.speed;
+    }
+    if (inputComponent.down) {
+        transformComponent.velocity.y += transformComponent.speed;
+    }
+    if (inputComponent.left) {
+        transformComponent.velocity.x -= transformComponent.speed;
+    }
+    if (inputComponent.right) {
+        transformComponent.velocity.x += transformComponent.speed;
+    }
+
     transformComponent.previousPosition = transformComponent.position;
-    transformComponent.position += playerVelocity;
+    transformComponent.position += transformComponent.velocity;
 }
 
-auto Scene_Play::sCollision() -> void {
+auto Scene_Play::collisionSystem() -> void {
     auto& inputComponent = player->getComponent<CInput>();
     auto& transformComponent = player->getComponent<CTransform>();
 

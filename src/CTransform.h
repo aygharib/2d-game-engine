@@ -10,7 +10,8 @@ public:
     Vec2  scale           {0.F, 0.F};
     Vec2  velocity        {0.F, 0.F};
     float angle           {0};
+    float speed           {0};
 
     CTransform() = default;
-    CTransform(Vec2 position);
+    CTransform(Vec2 position, float speed);
 };

@@ -31,8 +31,8 @@ public:
     auto spawnPlayer() -> void;
     auto spawnEnemy() -> void;
 
-    auto sMovement()  -> void;
-    auto sCollision() -> void;
+    auto movementSystem()  -> void;
+    auto collisionSystem() -> void;
     
     auto hasRegisteredAction(sf::Keyboard::Key keycode) -> bool;
 };
